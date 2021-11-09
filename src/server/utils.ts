@@ -146,9 +146,9 @@ export function formatPossibilityNew(
     "|" +
     possibility.searchStateAfterMove.level +
     "|" +
-    (possibility.totalValue) +
-    "|" +
     possibility.searchStateAfterMove.lines +
+    "|" +
+    (possibility.totalValue) +
     "|" +
     (possibility.inputCost !== 0)
   );
