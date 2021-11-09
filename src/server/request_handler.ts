@@ -6,6 +6,7 @@ import { DISABLE_LOGGING, LINE_CAP, SHOULD_LOG } from "./params";
 import { PreComputeManager } from "./precompute";
 import {
   formatPossibility,
+  formatPossibilities,
   getSurfaceArrayAndHoles,
   logBoard,
   parseBoard,
@@ -82,9 +83,15 @@ export class RequestHandler {
 
       case "sync-nb":
         return [this.handleRequestSyncWithNextBox(requestArgs, 1), 200];
+    
+      case "sync-nb-all":
+        return [this.handleRequestSyncWithNextBoxAll(requestArgs, 1), 200];
 
       case "sync-nnb":
         return [this.handleRequestSyncNoNextBox(requestArgs), 200];
+
+      case "sync-nnb-all":
+        return [this.handleRequestSyncNoNextBoxAll(requestArgs), 200];
 
       case "precompute":
         return this._wrapAsync(() => this.handlePrecomputeRequest(requestArgs));
@@ -265,6 +272,28 @@ export class RequestHandler {
     return formatPossibility(bestMove);
   }
 
+    handleRequestSyncNoNextBoxAll(requestArgs) {
+    console.time("NoNextBox");
+    let [searchState, inputFrameTimeline] = this._parseArguments(requestArgs);
+
+    // Get the best move
+    const allMoves: PossibilityChain[] = mainApp.getAllMoves(
+      searchState,
+      SHOULD_LOG,
+      params.getParams(),
+      params.getParamMods(),
+      inputFrameTimeline,
+      /* searchDepth= */ 1,
+      /* hypotheticalSearchDepth= */ 0
+    );
+
+    console.timeEnd("NoNextBox");
+    if (!allMoves) {
+      return "No legal moves";
+    }
+    return formatPossibilities(allMoves);
+  }
+
   /**
    * Synchronously choose the best placement, with next piece & 1-depth search.
    * @returns {string} the API response
@@ -287,6 +316,26 @@ export class RequestHandler {
       return "No legal moves";
     }
     return formatPossibility(bestMove);
+  }
+
+  handleRequestSyncWithNextBoxAll(requestArgs, hypotheticalSearchDepth) {
+    let [searchState, inputFrameTimeline] = this._parseArguments(requestArgs);
+
+    // Get the best move
+    const allMoves: PossibilityChain[] = mainApp.getAllMoves(
+      searchState,
+      SHOULD_LOG,
+      params.getParams(),
+      params.getParamMods(),
+      inputFrameTimeline,
+      /* searchDepth= */ 2,
+      hypotheticalSearchDepth
+    );
+
+    if (!allMoves) {
+      return "No legal moves";
+    }
+    return formatPossibilities(allMoves);
   }
 
   /**

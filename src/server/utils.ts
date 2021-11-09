@@ -126,6 +126,42 @@ export function formatPossibility(
   );
 }
 
+export function formatPossibilityNew(
+  possibility: PossibilityChain,
+  shouldPushDown = false
+) {
+  if (possibility == null) {
+    return "No legal moves";
+  }
+  return (
+    possibility.placement[0] +
+    "," +
+    possibility.placement[1] +
+    "|" +
+    (shouldPushDown && possibility.searchStateAfterMove.level == 18
+      ? pushDown(possibility.inputSequence)
+      : possibility.inputSequence || "none") +
+    "|" +
+    possibility.boardAfter.map((row) => row.join("")).join("") +
+    "|" +
+    possibility.searchStateAfterMove.level +
+    "|" +
+    possibility.searchStateAfterMove.lines +
+    "|" +
+    (possibility.inputCost !== 0)
+  );
+}
+
+export function formatPossibilities(
+  possibilities: PossibilityChain[],
+  shouldPushDown = false
+) {
+  const separator = ';'
+  return possibilities
+    .map(possibility => formatPossibilityNew(possibility, shouldPushDown))
+    .join(separator)
+}
+
 const FRAME_WITH_INPUT = "X";
 const FRAME_WAITING = ".";
 

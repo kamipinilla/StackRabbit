@@ -41,6 +41,28 @@ export function getBestMove(
   );
 }
 
+export function getAllMoves(
+  searchState: SearchState,
+  shouldLog: boolean,
+  initialAiParams: InitialAiParams,
+  paramMods: ParamMods,
+  inputFrameTimeline: string,
+  searchDepth: number,
+  hypotheticalSearchDepth: number
+): PossibilityChain[] {
+  return (
+    getSortedMoveList(
+      searchState,
+      shouldLog,
+      initialAiParams,
+      paramMods,
+      inputFrameTimeline,
+      searchDepth,
+      hypotheticalSearchDepth
+    )[0] || null
+  );
+}
+
 export function getSortedMoveList(
   searchState: SearchState,
   shouldLog: boolean,
