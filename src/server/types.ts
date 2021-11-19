@@ -49,6 +49,31 @@ interface FormattedInitialMove extends FormattedMove {
 
 type EngineResponseJson = Array<FormattedInitialMove>;
 
+interface FormattedMoveNew {
+  piece: PieceId;
+  input: {
+    rightRot: number
+    shifts: number
+  }
+  inputSequence: string;
+  isSpecialMove: boolean;
+  totalValue: number;
+
+  evalScore?: number
+  evalExplanation?: string
+  hypotheticalLines?: HypotheticalLine[]
+}
+
+interface FormattedAdjustmentNew extends FormattedMoveNew {
+  followUp: FormattedMoveNew | null;
+}
+
+interface FormattedInitialMoveNew extends FormattedMoveNew {
+  adjustments: Array<FormattedAdjustmentNew>;
+}
+
+type EngineResponseJsonNew = Array<FormattedInitialMoveNew>;
+
 /* ----------- Move Search-Related Types ------------ */
 
 type MoveSearchResult = [Array<PossibilityChain>, Array<PossibilityChain>]; // [bestMoves, prunedMoves]

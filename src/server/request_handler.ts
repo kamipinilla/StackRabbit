@@ -1,6 +1,6 @@
 import { PIECE_LOOKUP } from "../../docs/tetrominoes";
 import { getBoardAndLinesClearedAfterPlacement } from "./board_helper";
-import { engineLookup } from "./engine_lookup";
+import { engineLookup, engineLookupNew } from "./engine_lookup";
 import { rateSurface } from "./evaluator";
 import { DISABLE_LOGGING, LINE_CAP, SHOULD_LOG } from "./params";
 import { PreComputeManager } from "./precompute";
@@ -67,6 +67,9 @@ export class RequestHandler {
 
       case "engine":
         return [this.handleEngineLookup(requestArgs), 200];
+      
+      case "engine-new":
+        return [this.handleEngineLookupNew(requestArgs), 200];
 
       case "async-nb":
         return this._wrapAsync(() =>
@@ -381,6 +384,19 @@ export class RequestHandler {
 
     return JSON.stringify(
       engineLookup(
+        searchState,
+        params.getParams(),
+        params.getParamMods(),
+        inputFrameTimeline
+      )
+    );
+  }
+
+  handleEngineLookupNew(requestArgs: Array<string>) {
+    let [searchState, inputFrameTimeline] = this._parseArguments(requestArgs);
+
+    return JSON.stringify(
+      engineLookupNew(
         searchState,
         params.getParams(),
         params.getParamMods(),
