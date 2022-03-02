@@ -6,6 +6,7 @@ npm i
 npm run start-server
 ```
 
+## Description
 An AI that plays NES Tetris at a high level. Primarily based on search & heuristic, with high-quality board eval through value iteration.
 
 Due to the logistics of playing NES Tetris, there are two different clients for interacting with the main AI backend:
