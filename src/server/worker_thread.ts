@@ -92,7 +92,7 @@ function performComputationFinesse(args): Object {
 process.on("message", (args: WorkerDataArgs) => {
   const result =
     args.computationType == "finesse"
-      ? performComputationFinesseCpp(args)
+      ? performComputationFinesse(args)
       : performComputation(args);
   process.send({
     type: args.computationType == "finesse" ? "result-finesse" : "result",

@@ -57,24 +57,24 @@ export function searchForTucksOrSpins(
       "TUCK"
     )
   );
-  novelPossibilities = novelPossibilities.concat(
-    searchForTucksOrSpinsInternal(
-      potentialTuckSpinStates,
-      simParams,
-      lockHeightLookup,
-      alreadyFound,
-      "SPIN"
-    )
-  );
-  novelPossibilities = novelPossibilities.concat(
-    searchForTucksOrSpinsInternal(
-      potentialTuckSpinStates,
-      simParams,
-      lockHeightLookup,
-      alreadyFound,
-      "SPINTUCK"
-    )
-  );
+  // novelPossibilities = novelPossibilities.concat(
+  //   searchForTucksOrSpinsInternal(
+  //     potentialTuckSpinStates,
+  //     simParams,
+  //     lockHeightLookup,
+  //     alreadyFound,
+  //     "SPIN"
+  //   )
+  // );
+  // novelPossibilities = novelPossibilities.concat(
+  //   searchForTucksOrSpinsInternal(
+  //     potentialTuckSpinStates,
+  //     simParams,
+  //     lockHeightLookup,
+  //     alreadyFound,
+  //     "SPINTUCK"
+  //   )
+  // );
   return novelPossibilities;
 }
 
